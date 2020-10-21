@@ -36,3 +36,8 @@ for t in range(5):
     with torch.no_grad():
         for param in model.parameters():
             param -= learning_rate * param.grad
+
+    if t == 2:
+       with torch.autograd.profiler.profile(use_cuda=True) as prof:
+           model(x)
+       print(prof)
