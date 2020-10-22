@@ -1,0 +1,338 @@
+`bottleneck` is a tool that can be used as an initial step for debugging
+bottlenecks in your program.
+
+It summarizes runs of your script with the Python profiler and PyTorch's
+autograd profiler. Because your script will be profiled, please ensure that it
+exits in a finite amount of time.
+
+For more complicated uses of the profilers, please see
+https://docs.python.org/3/library/profile.html and
+https://pytorch.org/docs/master/autograd.html#profiler for more information.
+Running environment analysis...
+Running your script with cProfile
+[tensor([[[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        ...,
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]]]), tensor([1, 9, 7, 8, 2, 8, 8, 2, 1, 4])]
+Net(
+  (fc1): Linear(in_features=784, out_features=64, bias=True)
+  (fc2): Linear(in_features=64, out_features=64, bias=True)
+  (fc3): Linear(in_features=64, out_features=64, bias=True)
+  (fc4): Linear(in_features=64, out_features=10, bias=True)
+)
+Net(
+  (fc1): Linear(in_features=784, out_features=64, bias=True)
+  (fc2): Linear(in_features=64, out_features=64, bias=True)
+  (fc3): Linear(in_features=64, out_features=64, bias=True)
+  (fc4): Linear(in_features=64, out_features=10, bias=True)
+)
+Net(
+  (fc1): Linear(in_features=784, out_features=64, bias=True)
+  (fc2): Linear(in_features=64, out_features=64, bias=True)
+  (fc3): Linear(in_features=64, out_features=64, bias=True)
+  (fc4): Linear(in_features=64, out_features=10, bias=True)
+)
+tensor(0.3842, grad_fn=<NllLossBackward>)
+tensor(0.1976, grad_fn=<NllLossBackward>)
+tensor(0.0042, grad_fn=<NllLossBackward>)
+Accuracy:  0.968
+Running your script with the autograd profiler...
+[tensor([[[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        ...,
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]]]), tensor([0, 8, 9, 8, 2, 1, 5, 2, 8, 8])]
+Net(
+  (fc1): Linear(in_features=784, out_features=64, bias=True)
+  (fc2): Linear(in_features=64, out_features=64, bias=True)
+  (fc3): Linear(in_features=64, out_features=64, bias=True)
+  (fc4): Linear(in_features=64, out_features=10, bias=True)
+)
+Net(
+  (fc1): Linear(in_features=784, out_features=64, bias=True)
+  (fc2): Linear(in_features=64, out_features=64, bias=True)
+  (fc3): Linear(in_features=64, out_features=64, bias=True)
+  (fc4): Linear(in_features=64, out_features=10, bias=True)
+)
+Net(
+  (fc1): Linear(in_features=784, out_features=64, bias=True)
+  (fc2): Linear(in_features=64, out_features=64, bias=True)
+  (fc3): Linear(in_features=64, out_features=64, bias=True)
+  (fc4): Linear(in_features=64, out_features=10, bias=True)
+)
+tensor(0.7458, grad_fn=<NllLossBackward>)
+tensor(0.0284, grad_fn=<NllLossBackward>)
+tensor(0.0041, grad_fn=<NllLossBackward>)
+Accuracy:  0.969
+[tensor([[[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        ...,
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]],
+
+
+        [[[0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          ...,
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.],
+          [0., 0., 0.,  ..., 0., 0., 0.]]]]), tensor([2, 4, 6, 7, 9, 2, 3, 6, 5, 0])]
+Net(
+  (fc1): Linear(in_features=784, out_features=64, bias=True)
+  (fc2): Linear(in_features=64, out_features=64, bias=True)
+  (fc3): Linear(in_features=64, out_features=64, bias=True)
+  (fc4): Linear(in_features=64, out_features=10, bias=True)
+)
+Net(
+  (fc1): Linear(in_features=784, out_features=64, bias=True)
+  (fc2): Linear(in_features=64, out_features=64, bias=True)
+  (fc3): Linear(in_features=64, out_features=64, bias=True)
+  (fc4): Linear(in_features=64, out_features=10, bias=True)
+)
+Net(
+  (fc1): Linear(in_features=784, out_features=64, bias=True)
+  (fc2): Linear(in_features=64, out_features=64, bias=True)
+  (fc3): Linear(in_features=64, out_features=64, bias=True)
+  (fc4): Linear(in_features=64, out_features=10, bias=True)
+)
+tensor(0.0261, grad_fn=<NllLossBackward>)
+tensor(0.0641, grad_fn=<NllLossBackward>)
+tensor(0.0319, grad_fn=<NllLossBackward>)
+Accuracy:  0.968
+--------------------------------------------------------------------------------
+  Environment Summary
+--------------------------------------------------------------------------------
+PyTorch 1.6.0 compiled w/ CUDA 10.2
+Running with Python 3.6 and 
+
+`pip3 list` truncated output:
+numpy==1.19.2
+torch==1.6.0
+torchvision==0.7.0
+--------------------------------------------------------------------------------
+  cProfile output
+--------------------------------------------------------------------------------
+         21028388 function calls (20762806 primitive calls) in 218.900 seconds
+
+   Ordered by: internal time
+   List reduced from 3089 to 15 due to restriction <15>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    18000   44.509    0.002  130.603    0.007 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/optim/adam.py:51(step)
+   288000   28.702    0.000   28.702    0.000 {method 'add_' of 'torch._C._TensorBase' objects}
+    18000   25.784    0.001   25.784    0.001 {method 'run_backward' of 'torch._C._EngineBase' objects}
+   288000   21.926    0.000   21.926    0.000 {method 'mul_' of 'torch._C._TensorBase' objects}
+   144000   18.716    0.000   18.716    0.000 {method 'addcdiv_' of 'torch._C._TensorBase' objects}
+    76000   15.518    0.000   15.518    0.000 {built-in method addmm}
+   143992    9.798    0.000    9.798    0.000 {method 'zero_' of 'torch._C._TensorBase' objects}
+   144000    8.238    0.000    8.238    0.000 {method 'addcmul_' of 'torch._C._TensorBase' objects}
+   144000    7.504    0.000    7.504    0.000 {method 'sqrt' of 'torch._C._TensorBase' objects}
+   190010    3.697    0.000   25.471    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torchvision/datasets/mnist.py:82(__getitem__)
+   190010    3.437    0.000   14.881    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torchvision/transforms/functional.py:34(to_tensor)
+   190010    2.807    0.000    2.807    0.000 {method 'div' of 'torch._C._TensorBase' objects}
+   190010    1.922    0.000    1.922    0.000 {method 'float' of 'torch._C._TensorBase' objects}
+   190010    1.629    0.000    5.886    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/PIL/Image.py:2715(fromarray)
+   209011    1.279    0.000    1.279    0.000 {method 'view' of 'torch._C._TensorBase' objects}
+
+
+--------------------------------------------------------------------------------
+  autograd profiler output (CPU mode)
+--------------------------------------------------------------------------------
+        top 15 events sorted by cpu_time_total
+
+-----------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Name               Self CPU total %  Self CPU total   CPU total %      CPU total        CPU time avg     CUDA total %     CUDA total       CUDA time avg    Number of Calls  Input Shapes                                   
+-----------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+AddmmBackward      25.52%           1.023s           25.52%           1.023s           1.023s           NaN              0.000us          0.000us          1                []                                             
+mm                 25.51%           1.023s           25.51%           1.023s           1.023s           NaN              0.000us          0.000us          1                []                                             
+size               25.50%           1.023s           25.50%           1.023s           1.023s           NaN              0.000us          0.000us          1                []                                             
+select             13.02%           522.256ms        13.02%           522.256ms        522.256ms        NaN              0.000us          0.000us          1                []                                             
+sqrt               6.81%            272.944ms        6.81%            272.944ms        272.944ms        NaN              0.000us          0.000us          1                []                                             
+sqrt               1.79%            71.970ms         1.79%            71.970ms         71.970ms         NaN              0.000us          0.000us          1                []                                             
+select             0.42%            16.677ms         0.42%            16.677ms         16.677ms         NaN              0.000us          0.000us          1                []                                             
+addmm              0.25%            10.190ms         0.25%            10.190ms         10.190ms         NaN              0.000us          0.000us          1                []                                             
+stack              0.19%            7.669ms          0.19%            7.669ms          7.669ms          NaN              0.000us          0.000us          1                []                                             
+cat                0.19%            7.635ms          0.19%            7.635ms          7.635ms          NaN              0.000us          0.000us          1                []                                             
+_cat               0.19%            7.632ms          0.19%            7.632ms          7.632ms          NaN              0.000us          0.000us          1                []                                             
+div                0.16%            6.230ms          0.16%            6.230ms          6.230ms          NaN              0.000us          0.000us          1                []                                             
+mul_               0.15%            6.064ms          0.15%            6.064ms          6.064ms          NaN              0.000us          0.000us          1                []                                             
+addmm              0.15%            5.985ms          0.15%            5.985ms          5.985ms          NaN              0.000us          0.000us          1                []                                             
+div                0.15%            5.897ms          0.15%            5.897ms          5.897ms          NaN              0.000us          0.000us          1                []                                             
+-----------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Self CPU time total: 4.011s
+CUDA time total: 0.000us
+
+--------------------------------------------------------------------------------
+  autograd profiler output (CUDA mode)
+--------------------------------------------------------------------------------
+        top 15 events sorted by cpu_time_total
+
+	Because the autograd profiler uses the CUDA event API,
+	the CUDA time column reports approximately max(cuda_time, cpu_time).
+	Please ignore this output if your code does not use CUDA.
+
+-----------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Name                     Self CPU total %  Self CPU total   CPU total %      CPU total        CPU time avg     CUDA total %     CUDA total       CUDA time avg    Number of Calls  Input Shapes                                   
+-----------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+sum                      44.65%           2.683s           44.65%           2.683s           2.683s           44.65%           2.683s           2.683s           1                []                                             
+AddmmBackward            18.06%           1.085s           18.06%           1.085s           1.085s           18.06%           1.085s           1.085s           1                []                                             
+mm                       18.05%           1.085s           18.05%           1.085s           1.085s           18.05%           1.085s           1.085s           1                []                                             
+addcmul_                 7.64%            458.949ms        7.64%            458.949ms        458.949ms        7.64%            458.952ms        458.952ms        1                []                                             
+item                     2.46%            147.866ms        2.46%            147.866ms        147.866ms        2.46%            147.867ms        147.867ms        1                []                                             
+_local_scalar_dense      2.46%            147.845ms        2.46%            147.845ms        147.845ms        2.46%            147.855ms        147.855ms        1                []                                             
+addcmul_                 0.94%            56.187ms         0.94%            56.187ms         56.187ms         0.94%            56.188ms         56.188ms         1                []                                             
+t                        0.73%            44.085ms         0.73%            44.085ms         44.085ms         0.73%            44.064ms         44.064ms         1                []                                             
+transpose                0.73%            44.021ms         0.73%            44.021ms         44.021ms         0.73%            44.032ms         44.032ms         1                []                                             
+as_strided               0.73%            43.975ms         0.73%            43.975ms         43.975ms         0.73%            44.000ms         44.000ms         1                []                                             
+stack                    0.72%            42.982ms         0.72%            42.982ms         42.982ms         0.71%            42.944ms         42.944ms         1                []                                             
+cat                      0.71%            42.743ms         0.71%            42.743ms         42.743ms         0.71%            42.752ms         42.752ms         1                []                                             
+_cat                     0.71%            42.726ms         0.71%            42.726ms         42.726ms         0.71%            42.720ms         42.720ms         1                []                                             
+mul_                     0.71%            42.626ms         0.71%            42.626ms         42.626ms         0.71%            42.624ms         42.624ms         1                []                                             
+select                   0.70%            41.825ms         0.70%            41.825ms         41.825ms         0.70%            41.824ms         41.824ms         1                []                                             
+-----------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Self CPU time total: 6.009s
+CUDA time total: 6.009s
+
