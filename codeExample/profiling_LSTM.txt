@@ -1,0 +1,137 @@
+`bottleneck` is a tool that can be used as an initial step for debugging
+bottlenecks in your program.
+
+It summarizes runs of your script with the Python profiler and PyTorch's
+autograd profiler. Because your script will be profiled, please ensure that it
+exits in a finite amount of time.
+
+For more complicated uses of the profilers, please see
+https://docs.python.org/3/library/profile.html and
+https://pytorch.org/docs/master/autograd.html#profiler for more information.
+Running environment analysis...
+Running your script with cProfile
+tensor([[[-0.0187,  0.1713, -0.2944]],
+
+        [[-0.3521,  0.1026, -0.2971]],
+
+        [[-0.3191,  0.0781, -0.1957]],
+
+        [[-0.1634,  0.0941, -0.1637]],
+
+        [[-0.3368,  0.0959, -0.0538]]], grad_fn=<StackBackward>)
+(tensor([[[-0.3368,  0.0959, -0.0538]]], grad_fn=<StackBackward>), tensor([[[-0.9825,  0.4715, -0.0633]]], grad_fn=<StackBackward>))
+Running your script with the autograd profiler...
+tensor([[[-0.0187,  0.1713, -0.2944]],
+
+        [[-0.3521,  0.1026, -0.2971]],
+
+        [[-0.3191,  0.0781, -0.1957]],
+
+        [[-0.1634,  0.0941, -0.1637]],
+
+        [[-0.3368,  0.0959, -0.0538]]], grad_fn=<StackBackward>)
+(tensor([[[-0.3368,  0.0959, -0.0538]]], grad_fn=<StackBackward>), tensor([[[-0.9825,  0.4715, -0.0633]]], grad_fn=<StackBackward>))
+tensor([[[-0.0187,  0.1713, -0.2944]],
+
+        [[-0.3521,  0.1026, -0.2971]],
+
+        [[-0.3191,  0.0781, -0.1957]],
+
+        [[-0.1634,  0.0941, -0.1637]],
+
+        [[-0.3368,  0.0959, -0.0538]]], grad_fn=<StackBackward>)
+(tensor([[[-0.3368,  0.0959, -0.0538]]], grad_fn=<StackBackward>), tensor([[[-0.9825,  0.4715, -0.0633]]], grad_fn=<StackBackward>))
+--------------------------------------------------------------------------------
+  Environment Summary
+--------------------------------------------------------------------------------
+PyTorch 1.6.0 compiled w/ CUDA 10.2
+Running with Python 3.6 and 
+
+`pip3 list` truncated output:
+numpy==1.19.2
+torch==1.6.0
+torchvision==0.7.0
+--------------------------------------------------------------------------------
+  cProfile output
+--------------------------------------------------------------------------------
+         1276 function calls (1249 primitive calls) in 0.006 seconds
+
+   Ordered by: internal time
+   List reduced from 129 to 15 due to restriction <15>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        6    0.002    0.000    0.002    0.000 {built-in method lstm}
+        3    0.000    0.000    0.001    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/_tensor_str.py:74(__init__)
+        3    0.000    0.000    0.000    0.000 {built-in method isfinite}
+       25    0.000    0.000    0.000    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/nn/modules/module.py:774(__setattr__)
+        1    0.000    0.000    0.001    0.001 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/nn/modules/rnn.py:37(__init__)
+        1    0.000    0.000    0.006    0.006 LSTM.py:1(<module>)
+        9    0.000    0.000    0.000    0.000 {built-in method randn}
+        3    0.000    0.000    0.002    0.001 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/_tensor_str.py:277(_str_intern)
+       12    0.000    0.000    0.000    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/tensor.py:19(wrapped)
+        4    0.000    0.000    0.000    0.000 {method 'uniform_' of 'torch._C._TensorBase' objects}
+        3    0.000    0.000    0.000    0.000 {built-in method masked_select}
+        3    0.000    0.000    0.000    0.000 {method 'min' of 'torch._C._TensorBase' objects}
+        6    0.000    0.000    0.002    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/nn/modules/rnn.py:550(forward)
+       24    0.000    0.000    0.000    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/tensor.py:456(<lambda>)
+      114    0.000    0.000    0.000    0.000 {method 'format' of 'str' objects}
+
+
+--------------------------------------------------------------------------------
+  autograd profiler output (CPU mode)
+--------------------------------------------------------------------------------
+        top 15 events sorted by cpu_time_total
+
+------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Name          Self CPU total %  Self CPU total   CPU total %      CPU total        CPU time avg     CUDA total %     CUDA total       CUDA time avg    Number of Calls  Input Shapes                                   
+------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+lstm          25.94%           1.465ms          25.94%           1.465ms          1.465ms          NaN              0.000us          0.000us          1                []                                             
+lstm          9.00%            508.202us        9.00%            508.202us        508.202us        NaN              0.000us          0.000us          1                []                                             
+lstm          8.92%            503.687us        8.92%            503.687us        503.687us        NaN              0.000us          0.000us          1                []                                             
+lstm          7.35%            415.353us        7.35%            415.353us        415.353us        NaN              0.000us          0.000us          1                []                                             
+lstm          7.07%            399.430us        7.07%            399.430us        399.430us        NaN              0.000us          0.000us          1                []                                             
+lstm          6.99%            394.662us        6.99%            394.662us        394.662us        NaN              0.000us          0.000us          1                []                                             
+chunk         6.59%            372.108us        6.59%            372.108us        372.108us        NaN              0.000us          0.000us          1                []                                             
+split         6.56%            370.337us        6.56%            370.337us        370.337us        NaN              0.000us          0.000us          1                []                                             
+narrow        5.97%            337.347us        5.97%            337.347us        337.347us        NaN              0.000us          0.000us          1                []                                             
+slice         5.80%            327.448us        5.80%            327.448us        327.448us        NaN              0.000us          0.000us          1                []                                             
+mul           3.03%            170.866us        3.03%            170.866us        170.866us        NaN              0.000us          0.000us          1                []                                             
+linear        1.86%            105.005us        1.86%            105.005us        105.005us        NaN              0.000us          0.000us          1                []                                             
+stack         1.78%            100.679us        1.78%            100.679us        100.679us        NaN              0.000us          0.000us          1                []                                             
+isfinite      1.62%            91.271us         1.62%            91.271us         91.271us         NaN              0.000us          0.000us          1                []                                             
+cat           1.54%            86.938us         1.54%            86.938us         86.938us         NaN              0.000us          0.000us          1                []                                             
+------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Self CPU time total: 5.648ms
+CUDA time total: 0.000us
+
+--------------------------------------------------------------------------------
+  autograd profiler output (CUDA mode)
+--------------------------------------------------------------------------------
+        top 15 events sorted by cpu_time_total
+
+	Because the autograd profiler uses the CUDA event API,
+	the CUDA time column reports approximately max(cuda_time, cpu_time).
+	Please ignore this output if your code does not use CUDA.
+
+------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Name          Self CPU total %  Self CPU total   CPU total %      CPU total        CPU time avg     CUDA total %     CUDA total       CUDA time avg    Number of Calls  Input Shapes                                   
+------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+lstm          28.69%           5.692ms          28.69%           5.692ms          5.692ms          28.69%           5.691ms          5.691ms          1                []                                             
+lstm          15.78%           3.130ms          15.78%           3.130ms          3.130ms          15.78%           3.130ms          3.130ms          1                []                                             
+lstm          9.39%            1.864ms          9.39%            1.864ms          1.864ms          9.39%            1.863ms          1.863ms          1                []                                             
+lstm          8.81%            1.748ms          8.81%            1.748ms          1.748ms          8.81%            1.748ms          1.748ms          1                []                                             
+lstm          8.44%            1.675ms          8.44%            1.675ms          1.675ms          8.44%            1.674ms          1.674ms          1                []                                             
+lstm          8.10%            1.607ms          8.10%            1.607ms          1.607ms          8.10%            1.606ms          1.606ms          1                []                                             
+tanh          6.81%            1.351ms          6.81%            1.351ms          1.351ms          6.81%            1.351ms          1.351ms          1                []                                             
+chunk         2.32%            460.606us        2.32%            460.606us        460.606us        2.32%            460.545us        460.545us        1                []                                             
+split         2.26%            447.721us        2.26%            447.721us        447.721us        2.26%            447.840us        447.840us        1                []                                             
+stack         2.01%            398.386us        2.01%            398.386us        398.386us        2.01%            398.334us        398.334us        1                []                                             
+narrow        1.66%            329.840us        1.66%            329.840us        329.840us        1.66%            329.664us        329.664us        1                []                                             
+slice         1.61%            318.663us        1.61%            318.663us        318.663us        1.61%            319.393us        319.393us        1                []                                             
+linear        1.61%            318.542us        1.61%            318.542us        318.542us        1.61%            318.496us        318.496us        1                []                                             
+isfinite      1.27%            251.152us        1.27%            251.152us        251.152us        1.26%            250.654us        250.654us        1                []                                             
+linear        1.25%            247.202us        1.25%            247.202us        247.202us        1.25%            247.232us        247.232us        1                []                                             
+------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Self CPU time total: 19.839ms
+CUDA time total: 19.835ms
+
