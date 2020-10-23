@@ -1,0 +1,119 @@
+`bottleneck` is a tool that can be used as an initial step for debugging
+bottlenecks in your program.
+
+It summarizes runs of your script with the Python profiler and PyTorch's
+autograd profiler. Because your script will be profiled, please ensure that it
+exits in a finite amount of time.
+
+For more complicated uses of the profilers, please see
+https://docs.python.org/3/library/profile.html and
+https://pytorch.org/docs/master/autograd.html#profiler for more information.
+Running environment analysis...
+Running your script with cProfile
+tensor([[ 0.6614,  0.2669,  0.0617,  0.6213, -0.4519]],
+       grad_fn=<EmbeddingBackward>)
+[(['When', 'forty'], 'winters'), (['forty', 'winters'], 'shall'), (['winters', 'shall'], 'besiege')]
+[521.605694770813, 519.0404200553894, 516.4923872947693, 513.9597687721252, 511.4435930252075, 508.94287157058716, 506.45596718788147, 503.98212242126465, 501.52033734321594, 499.0704686641693]
+Running your script with the autograd profiler...
+tensor([[ 0.6614,  0.2669,  0.0617,  0.6213, -0.4519]],
+       grad_fn=<EmbeddingBackward>)
+[(['When', 'forty'], 'winters'), (['forty', 'winters'], 'shall'), (['winters', 'shall'], 'besiege')]
+[521.605694770813, 519.0404200553894, 516.4923872947693, 513.9597687721252, 511.4435930252075, 508.94287157058716, 506.45596718788147, 503.98212242126465, 501.52033734321594, 499.0704686641693]
+tensor([[ 0.6614,  0.2669,  0.0617,  0.6213, -0.4519]],
+       grad_fn=<EmbeddingBackward>)
+[(['When', 'forty'], 'winters'), (['forty', 'winters'], 'shall'), (['winters', 'shall'], 'besiege')]
+[521.605694770813, 519.0404200553894, 516.4923872947693, 513.9597687721252, 511.4435930252075, 508.94287157058716, 506.45596718788147, 503.98212242126465, 501.52033734321594, 499.0704686641693]
+--------------------------------------------------------------------------------
+  Environment Summary
+--------------------------------------------------------------------------------
+PyTorch 1.6.0 compiled w/ CUDA 10.2
+Running with Python 3.6 and 
+
+`pip3 list` truncated output:
+numpy==1.19.2
+torch==1.6.0
+torchvision==0.7.0
+--------------------------------------------------------------------------------
+  cProfile output
+--------------------------------------------------------------------------------
+         297046 function calls (286869 primitive calls) in 0.640 seconds
+
+   Ordered by: internal time
+   List reduced from 159 to 15 due to restriction <15>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1130    0.196    0.000    0.196    0.000 {method 'run_backward' of 'torch._C._EngineBase' objects}
+     2260    0.039    0.000    0.039    0.000 {built-in method addmm}
+5651/2261    0.030    0.000    0.223    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/nn/modules/module.py:710(_call_impl)
+     1131    0.024    0.000    0.024    0.000 {built-in method embedding}
+     2261    0.021    0.000    0.021    0.000 {built-in method tensor}
+    28240    0.020    0.000    0.036    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/tensor.py:725(grad)
+        1    0.020    0.020    0.640    0.640 n_gram_language_modeling.py:1(<module>)
+     5650    0.020    0.000    0.020    0.000 {method 'add_' of 'torch._C._TensorBase' objects}
+    32768    0.018    0.000    0.018    0.000 {built-in method builtins.hasattr}
+     1130    0.015    0.000    0.015    0.000 {method 'log_softmax' of 'torch._C._TensorBase' objects}
+     5645    0.014    0.000    0.014    0.000 {method 'zero_' of 'torch._C._TensorBase' objects}
+     1130    0.013    0.000    0.013    0.000 {built-in method torch._C._nn.nll_loss}
+     6786    0.013    0.000    0.033    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/nn/modules/module.py:1048(_named_members)
+     1130    0.012    0.000    0.095    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/nn/modules/module.py:1309(zero_grad)
+     2260    0.012    0.000    0.012    0.000 {method 't' of 'torch._C._TensorBase' objects}
+
+
+--------------------------------------------------------------------------------
+  autograd profiler output (CPU mode)
+--------------------------------------------------------------------------------
+        top 15 events sorted by cpu_time_total
+
+----------------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Name                          Self CPU total %  Self CPU total   CPU total %      CPU total        CPU time avg     CUDA total %     CUDA total       CUDA time avg    Number of Calls  Input Shapes                                   
+----------------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+EmbeddingBackward             14.22%           32.100ms         14.22%           32.100ms         32.100ms         NaN              0.000us          0.000us          1                []                                             
+embedding_backward            14.22%           32.096ms         14.22%           32.096ms         32.096ms         NaN              0.000us          0.000us          1                []                                             
+embedding_dense_backward      14.22%           32.093ms         14.22%           32.093ms         32.093ms         NaN              0.000us          0.000us          1                []                                             
+select                        14.20%           32.045ms         14.20%           32.045ms         32.045ms         NaN              0.000us          0.000us          1                []                                             
+size                          14.01%           31.613ms         14.01%           31.613ms         31.613ms         NaN              0.000us          0.000us          1                []                                             
+AddmmBackward                 7.20%            16.255ms         7.20%            16.255ms         16.255ms         NaN              0.000us          0.000us          1                []                                             
+mm                            7.15%            16.141ms         7.15%            16.141ms         16.141ms         NaN              0.000us          0.000us          1                []                                             
+nll_loss                      3.16%            7.141ms          3.16%            7.141ms          7.141ms          NaN              0.000us          0.000us          1                []                                             
+nll_loss_forward              3.16%            7.137ms          3.16%            7.137ms          7.137ms          NaN              0.000us          0.000us          1                []                                             
+contiguous                    2.77%            6.257ms          2.77%            6.257ms          6.257ms          NaN              0.000us          0.000us          1                []                                             
+log_softmax                   1.56%            3.515ms          1.56%            3.515ms          3.515ms          NaN              0.000us          0.000us          1                []                                             
+_log_softmax                  1.56%            3.512ms          1.56%            3.512ms          3.512ms          NaN              0.000us          0.000us          1                []                                             
+AddmmBackward                 0.91%            2.065ms          0.91%            2.065ms          2.065ms          NaN              0.000us          0.000us          1                []                                             
+addmm                         0.87%            1.967ms          0.87%            1.967ms          1.967ms          NaN              0.000us          0.000us          1                []                                             
+mm                            0.79%            1.777ms          0.79%            1.777ms          1.777ms          NaN              0.000us          0.000us          1                []                                             
+----------------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Self CPU time total: 225.714ms
+CUDA time total: 0.000us
+
+--------------------------------------------------------------------------------
+  autograd profiler output (CUDA mode)
+--------------------------------------------------------------------------------
+        top 15 events sorted by cpu_time_total
+
+	Because the autograd profiler uses the CUDA event API,
+	the CUDA time column reports approximately max(cuda_time, cpu_time).
+	Please ignore this output if your code does not use CUDA.
+
+----------------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Name                          Self CPU total %  Self CPU total   CPU total %      CPU total        CPU time avg     CUDA total %     CUDA total       CUDA time avg    Number of Calls  Input Shapes                                   
+----------------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+EmbeddingBackward             13.01%           31.890ms         13.01%           31.890ms         31.890ms         13.01%           31.890ms         31.890ms         1                []                                             
+embedding_backward            13.01%           31.878ms         13.01%           31.878ms         31.878ms         13.01%           31.879ms         31.879ms         1                []                                             
+embedding_dense_backward      13.01%           31.870ms         13.01%           31.870ms         31.870ms         13.00%           31.871ms         31.871ms         1                []                                             
+select                        12.94%           31.702ms         12.94%           31.702ms         31.702ms         12.94%           31.703ms         31.703ms         1                []                                             
+size                          12.75%           31.236ms         12.75%           31.236ms         31.236ms         12.75%           31.244ms         31.244ms         1                []                                             
+AddmmBackward                 7.27%            17.826ms         7.27%            17.826ms         17.826ms         7.27%            17.826ms         17.826ms         1                []                                             
+mm                            7.20%            17.638ms         7.20%            17.638ms         17.638ms         7.20%            17.638ms         17.638ms         1                []                                             
+size                          6.81%            16.694ms         6.81%            16.694ms         16.694ms         6.82%            16.718ms         16.718ms         1                []                                             
+nll_loss                      3.04%            7.445ms          3.04%            7.445ms          7.445ms          3.04%            7.445ms          7.445ms          1                []                                             
+nll_loss_forward              3.04%            7.438ms          3.04%            7.438ms          7.438ms          3.03%            7.438ms          7.438ms          1                []                                             
+resize_                       2.62%            6.427ms          2.62%            6.427ms          6.427ms          2.62%            6.430ms          6.430ms          1                []                                             
+log_softmax                   1.53%            3.742ms          1.53%            3.742ms          3.742ms          1.53%            3.742ms          3.742ms          1                []                                             
+_log_softmax                  1.52%            3.735ms          1.52%            3.735ms          3.735ms          1.52%            3.735ms          3.735ms          1                []                                             
+size                          1.31%            3.219ms          1.31%            3.219ms          3.219ms          1.31%            3.220ms          3.220ms          1                []                                             
+addmm                         0.94%            2.310ms          0.94%            2.310ms          2.310ms          0.94%            2.310ms          2.310ms          1                []                                             
+----------------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Self CPU time total: 245.051ms
+CUDA time total: 245.089ms
+
