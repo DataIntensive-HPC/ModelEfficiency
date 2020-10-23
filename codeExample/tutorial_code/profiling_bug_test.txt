@@ -1,0 +1,80 @@
+`bottleneck` is a tool that can be used as an initial step for debugging
+bottlenecks in your program.
+
+It summarizes runs of your script with the Python profiler and PyTorch's
+autograd profiler. Because your script will be profiled, please ensure that it
+exits in a finite amount of time.
+
+For more complicated uses of the profilers, please see
+https://docs.python.org/3/library/profile.html and
+https://pytorch.org/docs/master/autograd.html#profiler for more information.
+Running environment analysis...
+Running your script with cProfile
+Running your script with the autograd profiler...
+--------------------------------------------------------------------------------
+  Environment Summary
+--------------------------------------------------------------------------------
+PyTorch 1.6.0 compiled w/ CUDA 10.2
+Running with Python 3.6 and 
+
+`pip3 list` truncated output:
+numpy==1.19.2
+torch==1.6.0
+torchvision==0.7.0
+--------------------------------------------------------------------------------
+  cProfile output
+--------------------------------------------------------------------------------
+         2337 function calls (1600 primitive calls) in 0.361 seconds
+
+   Ordered by: internal time
+   List reduced from 87 to 15 due to restriction <15>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.210    0.210    0.210    0.210 {built-in method rand}
+        1    0.071    0.071    0.071    0.071 {method 'sum' of 'torch._C._TensorBase' objects}
+        1    0.051    0.051    0.051    0.051 {method 'run_backward' of 'torch._C._EngineBase' objects}
+        1    0.026    0.026    0.026    0.026 {built-in method conv2d}
+    102/1    0.001    0.000    0.002    0.002 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib64/python3.6/abc.py:196(__subclasscheck__)
+       37    0.000    0.000    0.000    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib64/python3.6/_weakrefset.py:36(__init__)
+        1    0.000    0.000    0.001    0.001 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/nn/modules/conv.py:37(__init__)
+   167/48    0.000    0.000    0.001    0.000 /usr/lib64/python3.6/typing.py:1145(__subclasscheck__)
+        2    0.000    0.000    0.000    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/nn/init.py:273(_calculate_fan_in_and_fan_out)
+   265/11    0.000    0.000    0.002    0.000 {built-in method builtins.issubclass}
+       85    0.000    0.000    0.000    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib64/python3.6/_weakrefset.py:58(__iter__)
+        2    0.000    0.000    0.000    0.000 {method 'uniform_' of 'torch._C._TensorBase' objects}
+        1    0.000    0.000    0.026    0.026 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/nn/modules/module.py:710(_call_impl)
+      176    0.000    0.000    0.000    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib64/python3.6/_weakrefset.py:70(__contains__)
+        1    0.000    0.000    0.000    0.000 {built-in method ones_like}
+
+
+--------------------------------------------------------------------------------
+  autograd profiler output (CUDA mode)
+--------------------------------------------------------------------------------
+        top 15 events sorted by cpu_time_total
+
+	Because the autograd profiler uses the CUDA event API,
+	the CUDA time column reports approximately max(cuda_time, cpu_time).
+	Please ignore this output if your code does not use CUDA.
+
+---------------------------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Name                                     Self CPU total %  Self CPU total   CPU total %      CPU total        CPU time avg     CUDA total %     CUDA total       CUDA time avg    Number of Calls  Input Shapes                                   
+---------------------------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+rand                                     27.89%           187.986ms        27.89%           187.986ms        187.986ms        27.88%           187.987ms        187.987ms        1                []                                             
+uniform_                                 27.81%           187.503ms        27.81%           187.503ms        187.503ms        27.81%           187.513ms        187.513ms        1                []                                             
+sum                                      7.83%            52.811ms         7.83%            52.811ms         52.811ms         7.83%            52.810ms         52.810ms         1                []                                             
+MkldnnConvolutionBackward                5.82%            39.218ms         5.82%            39.218ms         39.218ms         5.82%            39.218ms         39.218ms         1                []                                             
+mkldnn_convolution_backward              5.81%            39.166ms         5.81%            39.166ms         39.166ms         5.81%            39.167ms         39.167ms         1                []                                             
+mkldnn_convolution_backward_weights      5.79%            39.061ms         5.79%            39.061ms         39.061ms         5.79%            39.061ms         39.061ms         1                []                                             
+conv2d                                   3.74%            25.201ms         3.74%            25.201ms         25.201ms         3.74%            25.199ms         25.199ms         1                []                                             
+convolution                              3.73%            25.161ms         3.73%            25.161ms         25.161ms         3.73%            25.161ms         25.161ms         1                []                                             
+_convolution                             3.73%            25.127ms         3.73%            25.127ms         25.127ms         3.73%            25.133ms         25.133ms         1                []                                             
+mkldnn_convolution                       3.71%            25.002ms         3.71%            25.002ms         25.002ms         3.71%            25.002ms         25.002ms         1                []                                             
+UnfoldBackward                           1.79%            12.057ms         1.79%            12.057ms         12.057ms         1.79%            12.057ms         12.057ms         1                []                                             
+unfold_backward                          1.78%            12.018ms         1.78%            12.018ms         12.018ms         1.78%            12.018ms         12.018ms         1                []                                             
+zeros                                    0.20%            1.354ms          0.20%            1.354ms          1.354ms          0.20%            1.354ms          1.354ms          1                []                                             
+zero_                                    0.19%            1.252ms          0.19%            1.252ms          1.252ms          0.19%            1.252ms          1.252ms          1                []                                             
+fill_                                    0.18%            1.222ms          0.18%            1.222ms          1.222ms          0.18%            1.226ms          1.226ms          1                []                                             
+---------------------------------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Self CPU time total: 674.138ms
+CUDA time total: 674.156ms
+
