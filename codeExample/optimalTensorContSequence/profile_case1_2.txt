@@ -1,0 +1,124 @@
+`bottleneck` is a tool that can be used as an initial step for debugging
+bottlenecks in your program.
+
+It summarizes runs of your script with the Python profiler and PyTorch's
+autograd profiler. Because your script will be profiled, please ensure that it
+exits in a finite amount of time.
+
+For more complicated uses of the profilers, please see
+https://docs.python.org/3/library/profile.html and
+https://pytorch.org/docs/master/autograd.html#profiler for more information.
+Running environment analysis...
+Running your script with cProfile
+Matrix Contraction of A1 and A2 = A1A2 
+Size of A1
+torch.Size([16, 512, 16])
+Size of A2
+torch.Size([16, 16, 32])
+Calculating A1*A2 contradiction
+Size of A1A2
+torch.Size([16, 512, 16, 32])
+Calculating (A1A2)*B2 contradiction
+Size of A1A2B2
+torch.Size([16, 512, 32, 16, 32])
+Calculating B1*(A1A2B2)
+Size of B1A1A2B2
+torch.Size([512, 512, 32, 32])
+Running your script with the autograd profiler...
+Matrix Contraction of A1 and A2 = A1A2 
+Size of A1
+torch.Size([16, 512, 16])
+Size of A2
+torch.Size([16, 16, 32])
+Calculating A1*A2 contradiction
+Size of A1A2
+torch.Size([16, 512, 16, 32])
+Calculating (A1A2)*B2 contradiction
+Size of A1A2B2
+torch.Size([16, 512, 32, 16, 32])
+Calculating B1*(A1A2B2)
+Size of B1A1A2B2
+torch.Size([512, 512, 32, 32])
+Matrix Contraction of A1 and A2 = A1A2 
+Size of A1
+torch.Size([16, 512, 16])
+Size of A2
+torch.Size([16, 16, 32])
+Calculating A1*A2 contradiction
+Size of A1A2
+torch.Size([16, 512, 16, 32])
+Calculating (A1A2)*B2 contradiction
+Size of A1A2B2
+torch.Size([16, 512, 32, 16, 32])
+Calculating B1*(A1A2B2)
+Size of B1A1A2B2
+torch.Size([512, 512, 32, 32])
+--------------------------------------------------------------------------------
+  Environment Summary
+--------------------------------------------------------------------------------
+PyTorch 1.6.0 compiled w/ CUDA 10.2
+Running with Python 3.6 and 
+
+`pip3 list` truncated output:
+numpy==1.19.2
+tntorch==1.0.0
+torch==1.6.0
+torchtext==0.7.0
+torchvision==0.7.0
+--------------------------------------------------------------------------------
+  cProfile output
+--------------------------------------------------------------------------------
+         92 function calls (89 primitive calls) in 0.195 seconds
+
+   Ordered by: internal time
+   List reduced from 18 to 15 due to restriction <15>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        3    0.191    0.064    0.191    0.064 {built-in method einsum}
+        4    0.003    0.001    0.003    0.001 {built-in method randn}
+        1    0.000    0.000    0.195    0.195 case1_2.py:1(<module>)
+       14    0.000    0.000    0.000    0.000 {built-in method builtins.print}
+      6/3    0.000    0.000    0.191    0.064 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/functional.py:243(einsum)
+        5    0.000    0.000    0.000    0.000 {method 'size' of 'torch._C._TensorBase' objects}
+       15    0.000    0.000    0.000    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/functional.py:317(<genexpr>)
+        3    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
+        3    0.000    0.000    0.000    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/_overrides.py:779(has_torch_function)
+        9    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        3    0.000    0.000    0.000    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/_VF.py:13(__getattr__)
+        1    0.000    0.000    0.195    0.195 {built-in method builtins.exec}
+        3    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        6    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        6    0.000    0.000    0.000    0.000 /home/ozturk.27/ModelEfficiency/VirtualEnv/eminEnv/lib/python3.6/site-packages/torch/_overrides.py:792(<genexpr>)
+
+
+--------------------------------------------------------------------------------
+  autograd profiler output (CUDA mode)
+--------------------------------------------------------------------------------
+        top 15 events sorted by cpu_time_total
+
+	Because the autograd profiler uses the CUDA event API,
+	the CUDA time column reports approximately max(cuda_time, cpu_time).
+	Please ignore this output if your code does not use CUDA.
+
+-----------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Name         Self CPU total %  Self CPU total   CPU total %      CPU total        CPU time avg     CUDA total %     CUDA total       CUDA time avg    Number of Calls  Input Shapes                                   
+-----------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+einsum       34.74%           150.562ms        34.74%           150.562ms        150.562ms        34.74%           150.560ms        150.560ms        1                []                                             
+bmm          28.08%           121.683ms        28.08%           121.683ms        121.683ms        28.08%           121.684ms        121.684ms        1                []                                             
+einsum       8.31%            36.012ms         8.31%            36.012ms         36.012ms         8.31%            36.011ms         36.011ms         1                []                                             
+bmm          7.93%            34.362ms         7.93%            34.362ms         34.362ms         7.93%            34.363ms         34.363ms         1                []                                             
+reshape      6.10%            26.444ms         6.10%            26.444ms         26.444ms         6.10%            26.445ms         26.445ms         1                []                                             
+clone        6.09%            26.390ms         6.09%            26.390ms         26.390ms         6.09%            26.390ms         26.390ms         1                []                                             
+copy_        5.98%            25.908ms         5.98%            25.908ms         25.908ms         5.98%            25.918ms         25.918ms         1                []                                             
+einsum       0.57%            2.480ms          0.57%            2.480ms          2.480ms          0.57%            2.478ms          2.478ms          1                []                                             
+bmm          0.38%            1.639ms          0.38%            1.639ms          1.639ms          0.38%            1.639ms          1.639ms          1                []                                             
+randn        0.35%            1.525ms          0.35%            1.525ms          1.525ms          0.35%            1.525ms          1.525ms          1                []                                             
+normal_      0.33%            1.444ms          0.33%            1.444ms          1.444ms          0.33%            1.445ms          1.445ms          1                []                                             
+randn        0.33%            1.421ms          0.33%            1.421ms          1.421ms          0.33%            1.421ms          1.421ms          1                []                                             
+normal_      0.32%            1.401ms          0.32%            1.401ms          1.401ms          0.32%            1.401ms          1.401ms          1                []                                             
+reshape      0.24%            1.054ms          0.24%            1.054ms          1.054ms          0.24%            1.054ms          1.054ms          1                []                                             
+clone        0.23%            1.015ms          0.23%            1.015ms          1.015ms          0.23%            1.015ms          1.015ms          1                []                                             
+-----------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------  ---------------------------------------------  
+Self CPU time total: 433.341ms
+CUDA time total: 433.349ms
+
