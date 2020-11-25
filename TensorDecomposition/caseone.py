@@ -42,7 +42,7 @@ print(TA1TA2.size())
 
 #Calculate A1A2*C
 
-TA1TA2TC = torch.einsum( 'kij, kab -> ijab ' , [TA1TA2 , C])
+TA1TA2TC = torch.einsum( 'kij, kab -> ijab ' , [TA1TA2 , TC])
 
 
 print("Size of A1A2C")
