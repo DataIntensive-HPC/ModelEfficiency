@@ -9,9 +9,9 @@ device = torch.device("cpu")
 
 A_i, A_j, A_k = 512, 16, 16
 
-A1_i, A1_r1   =  512, 2
-A2_r1, A2_r2, A2_j = 2, 2, 16
-A3_r2, A3_k = 2, 16
+A1_i, A1_r1   =  512, 32
+A2_r1, A2_r2, A2_j = 32, 32, 16
+A3_r2, A3_k = 32, 16
 
 B_i, B_j, B_k = 16, 32 , 16
 C_i, C_j, C_k = 512, 16, 16
@@ -46,29 +46,41 @@ print(TA1TA2.size())
 
 #Calculate A1A2*C
 
-#TA1TA2TC = torch.einsum( 'kij, kab -> ijab ' , [TA1TA2 , TC])
+print("Size of C")
+print(TC.size())
+
+TA1TA2TC = torch.einsum( 'kij, iab -> kjab ' , [TA1TA2 , TC])
 
 
-#print("Size of A1A2C")
-#print(TA1TA2TC.size())
+print("Size of A1A2C")
+print(TA1TA2TC.size())
 
 #Calculate A3B
 
-#TA3TB = torch.einsum('ij,kjl -> ikl' , [TA3, TB])
+print("Size of A3")
+print(TA3.size())
 
-#print("Size of TA3TB")
-#print(TA3TB.size())
+print("Size of B")
+print(TB.size())
+
+TA3TB = torch.einsum('ij,kjl -> ikl' , [TA3, TB])
+
+print("Size of TA3TB")
+print(TA3TB.size())
 
 #Calculate A3B*D
 
-#TA3TBTD = torch.einsum('kij, kab -> ijab' , [TA3TB, TD])
+print("Size of D")
+print(TD.size())
 
-#print("Size of TA3TBTD")
-#print(TA3TBTD.size())
+TA3TBTD = torch.einsum('kij, iab -> kjab' , [TA3TB, TD])
+
+print("Size of TA3TBTD")
+print(TA3TBTD.size())
 
 #Calculate  A1A2C*A3BD
 
-#TA1TA2TCTA3TBTD = torch.einsum('abcd, cdij -> abij' , [TA1TA2TC , TA3TBTD])
+TA1TA2TCTA3TBTD = torch.einsum('abcd, bidj -> acij' , [TA1TA2TC , TA3TBTD])
 
-#print("Size of TA3TBTD")
-#print(TA3TBTD.size())
+print("Size of TA1TA2TCTA3TBTD")
+print(TA1TA2TCTA3TBTD.size())
