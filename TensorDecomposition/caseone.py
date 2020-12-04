@@ -46,29 +46,29 @@ print(TA1TA2.size())
 
 #Calculate A1A2*C
 
-#TA1TA2TC = torch.einsum( 'kij, kab -> ijab ' , [TA1TA2 , TC])
+TA1TA2TC = torch.einsum( 'kij, iab -> kjab ' , [TA1TA2 , TC])
 
 
-#print("Size of A1A2C")
-#print(TA1TA2TC.size())
+print("Size of A1A2C")
+print(TA1TA2TC.size())
 
-#Calculate A3B
+Calculate A3B
 
-#TA3TB = torch.einsum('ij,kjl -> ikl' , [TA3, TB])
+TA3TB = torch.einsum('ij,kjl -> ikl' , [TA3, TB])
 
-#print("Size of TA3TB")
-#print(TA3TB.size())
+print("Size of TA3TB")
+print(TA3TB.size())
 
-#Calculate A3B*D
+Calculate A3B*D
 
-#TA3TBTD = torch.einsum('kij, kab -> ijab' , [TA3TB, TD])
+TA3TBTD = torch.einsum('kij, kab -> ijab' , [TA3TB, TD])
 
-#print("Size of TA3TBTD")
-#print(TA3TBTD.size())
+print("Size of TA3TBTD")
+print(TA3TBTD.size())
 
-#Calculate  A1A2C*A3BD
+Calculate  A1A2C*A3BD
 
-#TA1TA2TCTA3TBTD = torch.einsum('abcd, cdij -> abij' , [TA1TA2TC , TA3TBTD])
+TA1TA2TCTA3TBTD = torch.einsum('abcd, cdij -> abij' , [TA1TA2TC , TA3TBTD])
 
-#print("Size of TA3TBTD")
-#print(TA3TBTD.size())
+print("Size of TA3TBTD")
+print(TA3TBTD.size())
